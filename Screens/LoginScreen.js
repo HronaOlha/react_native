@@ -13,15 +13,13 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import SvgComponent from "./assets/images/addIcon";
-
 const initialState = {
   login: "",
   email: "",
   password: "",
 };
 
-export default function RegistrationScreen() {
+export default function LoginScreen() {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const [focus, setFocus] = useState({
@@ -51,12 +49,6 @@ export default function RegistrationScreen() {
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <View style={styles.addPhoto}>
-              <TouchableOpacity style={styles.addIcon}>
-                <SvgComponent />
-              </TouchableOpacity>
-            </View>
-
             <View
               // style={{
               //   ...styles.form,
@@ -64,31 +56,9 @@ export default function RegistrationScreen() {
               // }}
               style={styles.form}
             >
-              <Text style={styles.inputTitle}>Реєстрація</Text>
+              <Text style={styles.inputTitle}>Увійти</Text>
+
               <View>
-                <TextInput
-                  style={{
-                    ...styles.input,
-                    backgroundColor: focus.name ? "#fff" : "#F6F6F6",
-                    borderColor: focus.name ? "#FF6C00" : "#E8E8E8",
-                  }}
-                  placeholder="Логін"
-                  placeholderTextColor="#BDBDBD"
-                  onBlur={() => {
-                    setFocus((state) => ({ ...state, name: false }));
-                    setIsShowKeyboard(false);
-                  }}
-                  onFocus={() => {
-                    setFocus((state) => ({ ...state, name: true }));
-                    setIsShowKeyboard(true);
-                  }}
-                  value={state.login}
-                  onChangeText={(value) =>
-                    setState((prevState) => ({ ...prevState, login: value }))
-                  }
-                />
-              </View>
-              <View style={{ marginTop: 16 }}>
                 <TextInput
                   style={{
                     ...styles.input,
@@ -145,11 +115,11 @@ export default function RegistrationScreen() {
                 activeOpacity={0.9}
                 onPress={keyboardHideFromBtn}
               >
-                <Text style={styles.btnText}>Зареєструватися</Text>
+                <Text style={styles.btnText}>Увійти</Text>
               </TouchableOpacity>
 
               <TouchableOpacity>
-                <Text style={styles.link}>Вже є акаунт? Увійти</Text>
+                <Text style={styles.link}>Немає акаунту? Зареєструватися</Text>
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
@@ -178,35 +148,18 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 16,
   },
-  addPhoto: {
-    position: "absolute",
-    zIndex: 2,
-    left: "50%",
-    // transform: translate("-50%", "-50%"),
-    transform: [{ translateX: -50 }, { translateY: -50 }],
-    height: 120,
-    width: 120,
-    borderRadius: 16,
-    backgroundColor: "#F6F6F6",
-  },
-  addIcon: {
-    zIndex: 5,
-    position: "absolute",
-    bottom: 14,
-    left: "90%",
-  },
+
   form: {
     backgroundColor: "#ffffff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    paddingTop: 92,
-    paddingBottom: 78,
+    paddingTop: 32,
+    paddingBottom: 111,
 
     paddingHorizontal: 16,
-    width: "100%",
   },
   inputTitle: {
-    marginBottom: 33,
+    marginBottom: 32,
     fontWeight: 500,
     fontSize: 30,
     textAlign: "center",
