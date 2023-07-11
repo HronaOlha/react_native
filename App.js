@@ -29,6 +29,7 @@ export default function RegistrationScreen() {
     email: false,
     password: false,
   });
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -45,7 +46,10 @@ export default function RegistrationScreen() {
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <View style={styles.container}>
         <ImageBackground
-          style={styles.img}
+          style={{
+            ...styles.img,
+            justifyContent: isShowKeyboard ? "center" : "flex-end",
+          }}
           source={require("./assets/images/bg-image.jpg")}
         >
           <KeyboardAvoidingView
@@ -120,7 +124,7 @@ export default function RegistrationScreen() {
                   }}
                   placeholder="Пароль"
                   placeholderTextColor="#BDBDBD"
-                  secureTextEntry={true}
+                  secureTextEntry={isPasswordHidden}
                   onBlur={() => {
                     setFocus((state) => ({ ...state, password: false }));
                     setIsShowKeyboard(false);
@@ -137,7 +141,12 @@ export default function RegistrationScreen() {
                     }))
                   }
                 />
-                <Text style={styles.showPassword}>Показати</Text>
+                <Text
+                  style={styles.showPassword}
+                  onPress={() => setIsPasswordHidden(!isPasswordHidden)}
+                >
+                  {isPasswordHidden ? "Показати" : "Заховати"}
+                </Text>
               </View>
 
               <TouchableOpacity
@@ -167,7 +176,7 @@ const styles = StyleSheet.create({
   img: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
   },
   input: {
     borderWidth: 1,

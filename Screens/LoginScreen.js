@@ -14,7 +14,6 @@ import {
 } from "react-native";
 
 const initialState = {
-  login: "",
   email: "",
   password: "",
 };
@@ -23,10 +22,10 @@ export default function LoginScreen() {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const [focus, setFocus] = useState({
-    name: false,
     email: false,
     password: false,
   });
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -43,18 +42,21 @@ export default function LoginScreen() {
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <View style={styles.container}>
         <ImageBackground
-          style={styles.img}
+          style={{
+            ...styles.img,
+            justifyContent: isShowKeyboard ? "flex-end" : "flex-end",
+          }}
           source={require("./assets/images/bg-image.jpg")}
         >
           <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "padding" : ""}
           >
             <View
-              // style={{
-              //   ...styles.form,
-              //   marginBottom: isShowKeyboard ? 32 : 0,
-              // }}
-              style={styles.form}
+              style={{
+                ...styles.form,
+                paddingBottom: isShowKeyboard ? 32 : 111,
+              }}
+              // style={styles.form}
             >
               <Text style={styles.inputTitle}>Увійти</Text>
 
@@ -90,7 +92,7 @@ export default function LoginScreen() {
                   }}
                   placeholder="Пароль"
                   placeholderTextColor="#BDBDBD"
-                  secureTextEntry={true}
+                  secureTextEntry={isPasswordHidden}
                   onBlur={() => {
                     setFocus((state) => ({ ...state, password: false }));
                     setIsShowKeyboard(false);
@@ -107,7 +109,12 @@ export default function LoginScreen() {
                     }))
                   }
                 />
-                <Text style={styles.showPassword}>Показати</Text>
+                <Text
+                  style={styles.showPassword}
+                  onPress={() => setIsPasswordHidden(!isPasswordHidden)}
+                >
+                  {isPasswordHidden ? "Показати" : "Заховати"}
+                </Text>
               </View>
 
               <TouchableOpacity
