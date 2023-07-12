@@ -13,15 +13,19 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
+import SvgComponent from "../../assets/images/addIcon";
+
 const initialState = {
+  login: "",
   email: "",
   password: "",
 };
 
-export default function LoginScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const [focus, setFocus] = useState({
+    name: false,
     email: false,
     password: false,
   });
@@ -44,23 +48,51 @@ export default function LoginScreen() {
         <ImageBackground
           style={{
             ...styles.img,
-            justifyContent: isShowKeyboard ? "flex-end" : "flex-end",
+            justifyContent: isShowKeyboard ? "center" : "flex-end",
           }}
-          source={require("./assets/images/bg-image.jpg")}
+          source={require("../../assets/images/bg-image.jpg")}
         >
           <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : ""}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <View
-              style={{
-                ...styles.form,
-                paddingBottom: isShowKeyboard ? 32 : 111,
-              }}
-              // style={styles.form}
-            >
-              <Text style={styles.inputTitle}>Увійти</Text>
+            <View style={styles.addPhoto}>
+              <TouchableOpacity style={styles.addIcon}>
+                <SvgComponent />
+              </TouchableOpacity>
+            </View>
 
+            <View
+              // style={{
+              //   ...styles.form,
+              //   marginBottom: isShowKeyboard ? 32 : 0,
+              // }}
+              style={styles.form}
+            >
+              <Text style={styles.inputTitle}>Реєстрація</Text>
               <View>
+                <TextInput
+                  style={{
+                    ...styles.input,
+                    backgroundColor: focus.name ? "#fff" : "#F6F6F6",
+                    borderColor: focus.name ? "#FF6C00" : "#E8E8E8",
+                  }}
+                  placeholder="Логін"
+                  placeholderTextColor="#BDBDBD"
+                  onBlur={() => {
+                    setFocus((state) => ({ ...state, name: false }));
+                    setIsShowKeyboard(false);
+                  }}
+                  onFocus={() => {
+                    setFocus((state) => ({ ...state, name: true }));
+                    setIsShowKeyboard(true);
+                  }}
+                  value={state.login}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, login: value }))
+                  }
+                />
+              </View>
+              <View style={{ marginTop: 16 }}>
                 <TextInput
                   style={{
                     ...styles.input,
@@ -120,13 +152,20 @@ export default function LoginScreen() {
               <TouchableOpacity
                 style={styles.button}
                 activeOpacity={0.9}
+                disabled={
+                  state.name !== "" &&
+                  state.email !== "" &&
+                  state.password !== ""
+                    ? false
+                    : true
+                }
                 onPress={keyboardHideFromBtn}
               >
-                <Text style={styles.btnText}>Увійти</Text>
+                <Text style={styles.btnText}>Зареєструватися</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity>
-                <Text style={styles.link}>Немає акаунту? Зареєструватися</Text>
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Text style={styles.link}>Вже є акаунт? Увійти</Text>
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
@@ -144,7 +183,7 @@ const styles = StyleSheet.create({
   img: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
   },
   input: {
     borderWidth: 1,
@@ -155,18 +194,35 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 16,
   },
-
+  addPhoto: {
+    position: "absolute",
+    zIndex: 2,
+    left: "50%",
+    // transform: translate("-50%", "-50%"),
+    transform: [{ translateX: -50 }, { translateY: -50 }],
+    height: 120,
+    width: 120,
+    borderRadius: 16,
+    backgroundColor: "#F6F6F6",
+  },
+  addIcon: {
+    zIndex: 5,
+    position: "absolute",
+    bottom: 14,
+    left: "90%",
+  },
   form: {
     backgroundColor: "#ffffff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    paddingTop: 32,
-    paddingBottom: 111,
+    paddingTop: 92,
+    paddingBottom: 78,
 
     paddingHorizontal: 16,
+    width: "100%",
   },
   inputTitle: {
-    marginBottom: 32,
+    marginBottom: 33,
     fontWeight: 500,
     fontSize: 30,
     textAlign: "center",
