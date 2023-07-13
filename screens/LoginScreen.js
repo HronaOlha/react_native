@@ -13,19 +13,15 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import SvgComponent from "../../assets/images/addIcon";
-
 const initialState = {
-  login: "",
   email: "",
   password: "",
 };
 
-export default function RegistrationScreen({ navigation }) {
+export default function LoginScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const [focus, setFocus] = useState({
-    name: false,
     email: false,
     password: false,
   });
@@ -36,7 +32,9 @@ export default function RegistrationScreen({ navigation }) {
     Keyboard.dismiss();
   };
 
-  const keyboardHideFromBtn = () => {
+  const signIn = () => {
+    navigation.navigate("Home");
+
     keyboardHide();
     setState(initialState);
     console.log(state);
@@ -48,51 +46,22 @@ export default function RegistrationScreen({ navigation }) {
         <ImageBackground
           style={{
             ...styles.img,
-            justifyContent: isShowKeyboard ? "center" : "flex-end",
+            justifyContent: isShowKeyboard ? "flex-end" : "flex-end",
           }}
-          source={require("../../assets/images/bg-image.jpg")}
+          source={require("../assets/images/bg-image.jpg")}
         >
           <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "padding" : ""}
           >
-            <View style={styles.addPhoto}>
-              <TouchableOpacity style={styles.addIcon}>
-                <SvgComponent />
-              </TouchableOpacity>
-            </View>
-
             <View
-              // style={{
-              //   ...styles.form,
-              //   marginBottom: isShowKeyboard ? 32 : 0,
-              // }}
-              style={styles.form}
+              style={{
+                ...styles.form,
+                paddingBottom: isShowKeyboard ? 32 : 111,
+              }}
             >
-              <Text style={styles.inputTitle}>Реєстрація</Text>
+              <Text style={styles.inputTitle}>Увійти</Text>
+
               <View>
-                <TextInput
-                  style={{
-                    ...styles.input,
-                    backgroundColor: focus.name ? "#fff" : "#F6F6F6",
-                    borderColor: focus.name ? "#FF6C00" : "#E8E8E8",
-                  }}
-                  placeholder="Логін"
-                  placeholderTextColor="#BDBDBD"
-                  onBlur={() => {
-                    setFocus((state) => ({ ...state, name: false }));
-                    setIsShowKeyboard(false);
-                  }}
-                  onFocus={() => {
-                    setFocus((state) => ({ ...state, name: true }));
-                    setIsShowKeyboard(true);
-                  }}
-                  value={state.login}
-                  onChangeText={(value) =>
-                    setState((prevState) => ({ ...prevState, login: value }))
-                  }
-                />
-              </View>
-              <View style={{ marginTop: 16 }}>
                 <TextInput
                   style={{
                     ...styles.input,
@@ -159,13 +128,15 @@ export default function RegistrationScreen({ navigation }) {
                     ? false
                     : true
                 }
-                onPress={keyboardHideFromBtn}
+                onPress={signIn}
               >
-                <Text style={styles.btnText}>Зареєструватися</Text>
+                <Text style={styles.btnText}>Увійти</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                <Text style={styles.link}>Вже є акаунт? Увійти</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Registration")}
+              >
+                <Text style={styles.link}>Немає акаунту? Зареєструватися</Text>
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
@@ -183,46 +154,28 @@ const styles = StyleSheet.create({
   img: {
     flex: 1,
     resizeMode: "cover",
-    // justifyContent: "flex-end",
+    justifyContent: "flex-end",
   },
   input: {
     borderWidth: 1,
     borderColor: "#E8E8E8",
     borderRadius: 8,
-    // backgroundColor: "#F6F6F6",
     height: 50,
     padding: 16,
     fontSize: 16,
   },
-  addPhoto: {
-    position: "absolute",
-    zIndex: 2,
-    left: "50%",
-    // transform: translate("-50%", "-50%"),
-    transform: [{ translateX: -50 }, { translateY: -50 }],
-    height: 120,
-    width: 120,
-    borderRadius: 16,
-    backgroundColor: "#F6F6F6",
-  },
-  addIcon: {
-    zIndex: 5,
-    position: "absolute",
-    bottom: 14,
-    left: "90%",
-  },
+
   form: {
     backgroundColor: "#ffffff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    paddingTop: 92,
-    paddingBottom: 78,
+    paddingTop: 32,
+    paddingBottom: 111,
 
     paddingHorizontal: 16,
-    width: "100%",
   },
   inputTitle: {
-    marginBottom: 33,
+    marginBottom: 32,
     fontWeight: 500,
     fontSize: 30,
     textAlign: "center",
