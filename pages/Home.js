@@ -1,5 +1,3 @@
-import { View, Text } from "react-native";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 
