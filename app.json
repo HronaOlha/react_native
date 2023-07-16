@@ -12,9 +12,18 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "packagerOpts": {
-      "sourceExts": ["js", "json", "ts", "tsx", "jsx", "vue"]
+      "sourceExts": [
+        "js",
+        "json",
+        "ts",
+        "tsx",
+        "jsx",
+        "vue"
+      ]
     },
     "ios": {
       "supportsTablet": true,
@@ -25,10 +34,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "jsEngine": "jsc"
+      "jsEngine": "jsc",
+      "package": "com.kurosaki.hell.reactnativeproject"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fbbdeb2c-97e3-41c0-82be-1fcffc34fed2"
+      }
     }
   }
 }
